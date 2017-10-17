@@ -87,8 +87,8 @@ LRESULT LicenseDialog::OnContinue( WORD wNotifyCode, WORD wID, HWND hWndCtl, BOO
    return TRUE;
 }
 
-#define BTN_BACK_TO_USE_TERMS 1
-#define BTN_CANCEL_SETUP 2
+#define BTN_BACK_TO_USE_TERMS 2
+#define BTN_CANCEL_SETUP 1
 
 LRESULT LicenseDialog::OnDecline( WORD wNotifyCode, WORD wID, HWND hWndCtl, BOOL& bHandled )
 {  
