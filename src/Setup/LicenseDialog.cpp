@@ -6,7 +6,7 @@
 
 bool LicenseDialog::AcceptLicense()
 {
-   HMODULE hRichEditModule = LoadLibrary( L"RichEd32.dll" );
+   HMODULE hRichEditModule = LoadLibrary( L"Msftedit.dll" );
    INT_PTR returnVal = DoModal();
    ::FreeLibrary( hRichEditModule );
    return returnVal == IDOK;
@@ -23,15 +23,15 @@ DWORD CALLBACK EditStreamCallback( DWORD_PTR dwCookie,
                                    LONG cb,
                                    PLONG pcb )
 {
-   std::stringstream* stream = ( std::stringstream* )dwCookie;
-
-   if ( stream->read( (char*)lpBuff, cb ) )
+   std::stringstream* stream = ( std::stringstream* )dwCookie;   
+   
+   stream->read( (char*)lpBuff, cb );
+   if ( stream->bad() )
    {
-      *pcb = (LONG)stream->gcount();
-      return 0;
+      return -1;
    }
-
-   return -1;
+   *pcb = (LONG)stream->gcount();
+   return 0;   
 }
 
 LRESULT LicenseDialog::OnInitDialog( UINT, WPARAM, LPARAM, BOOL& )
@@ -39,6 +39,7 @@ LRESULT LicenseDialog::OnInitDialog( UINT, WPARAM, LPARAM, BOOL& )
    CenterWindow();
    GetDlgItem( IDC_CONTINUE ).EnableWindow( FALSE );
    m_licenseText.Attach( GetDlgItem( IDC_LICENSE_TEXT ) );
+   m_licenseText.SetEventMask( m_licenseText.GetEventMask() | ENM_LINK );
    LoadLicenseFromResources();
    return TRUE;
 }
@@ -64,6 +65,22 @@ void LicenseDialog::LoadLicenseFromResources()
          ::FreeResource( hGlobal );
       }
    }
+}
+
+LRESULT LicenseDialog::OnLink( int idCtrl, LPNMHDR pnmh, BOOL& )
+{
+   ENLINK* pnml = reinterpret_cast<ENLINK*>( pnmh );
+
+   if ( pnml->msg == WM_LBUTTONDOWN ||
+      ( pnml->msg == WM_KEYDOWN && pnml->wParam == VK_RETURN ) )
+   {
+      CString url;
+      m_licenseText.GetTextRange( pnml->chrg.cpMin, pnml->chrg.cpMax, url.GetBuffer( pnml->chrg.cpMax- pnml->chrg.cpMin) );
+      ShellExecute( NULL, L"open", url, NULL, NULL, SW_SHOWNORMAL );
+      return 1;
+   }
+
+   return 0;
 }
 
 LRESULT LicenseDialog::OnClose( UINT, WPARAM, LPARAM, BOOL& )
