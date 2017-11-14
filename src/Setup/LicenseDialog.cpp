@@ -39,7 +39,7 @@ LRESULT LicenseDialog::OnInitDialog( UINT, WPARAM, LPARAM, BOOL& )
    CenterWindow();
    GetDlgItem( IDC_CONTINUE ).EnableWindow( FALSE );
    m_licenseText.Attach( GetDlgItem( IDC_LICENSE_TEXT ) );
-   m_licenseText.SetEventMask( m_licenseText.GetEventMask() | ENM_LINK | ENM_CHANGE);
+   m_licenseText.SetEventMask( m_licenseText.GetEventMask() | ENM_LINK );
    LoadLicenseFromResources();
    return TRUE;
 }
