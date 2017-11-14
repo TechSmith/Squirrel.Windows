@@ -16,6 +16,7 @@ private:
    LRESULT OnDecline( WORD wNotifyCode, WORD wID, HWND hWndCtl, BOOL& bHandled );
    LRESULT OnPrint( WORD wNotifyCode, WORD wID, HWND hWndCtl, BOOL& bHandled );
    LRESULT OnClose( UINT, WPARAM, LPARAM, BOOL& );
+   LRESULT OnLink( int idCtrl, LPNMHDR pnmh, BOOL& bHandled );
 
    BEGIN_MSG_MAP( LicenseDialog )
       MESSAGE_HANDLER( WM_INITDIALOG, OnInitDialog )
@@ -24,6 +25,7 @@ private:
       COMMAND_ID_HANDLER( IDC_ACCEPT, OnAccept )
       COMMAND_HANDLER( IDC_DECLINE, BN_CLICKED, OnDecline )
       COMMAND_ID_HANDLER( IDC_PRINT, OnPrint )
+      NOTIFY_HANDLER( IDC_LICENSE_TEXT, EN_LINK, OnLink )
    END_MSG_MAP()
    
 public:
