@@ -23,15 +23,15 @@ DWORD CALLBACK EditStreamCallback( DWORD_PTR dwCookie,
                                    LONG cb,
                                    PLONG pcb )
 {
-   std::stringstream* stream = ( std::stringstream* )dwCookie;
-
-   if ( stream->read( (char*)lpBuff, cb ) )
+   std::stringstream* stream = ( std::stringstream* )dwCookie;   
+   
+   stream->read( (char*)lpBuff, cb );
+   if ( stream->bad() )
    {
-      *pcb = (LONG)stream->gcount();
-      return 0;
+      return -1;
    }
-
-   return -1;
+   *pcb = (LONG)stream->gcount();
+   return 0;   
 }
 
 LRESULT LicenseDialog::OnInitDialog( UINT, WPARAM, LPARAM, BOOL& )
