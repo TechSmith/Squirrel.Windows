@@ -104,9 +104,6 @@ LRESULT LicenseDialog::OnContinue( WORD wNotifyCode, WORD wID, HWND hWndCtl, BOO
    return TRUE;
 }
 
-#define BTN_BACK_TO_USE_TERMS 2
-#define BTN_CANCEL_SETUP 1
-
 LRESULT LicenseDialog::OnDecline( WORD wNotifyCode, WORD wID, HWND hWndCtl, BOOL& bHandled )
 {  
    if ( !IsDlgButtonChecked( IDC_DECLINE ) )
@@ -116,29 +113,6 @@ LRESULT LicenseDialog::OnDecline( WORD wNotifyCode, WORD wID, HWND hWndCtl, BOOL
 
    ::SetFocus( GetDlgItem( IDC_ACCEPT).m_hWnd );
    GetDlgItem( IDC_CONTINUE ).EnableWindow( FALSE );
-   CheckDlgButton( IDC_DECLINE, FALSE );
-
-   CTaskDialog dlg;
-   CString strUseTerms;
-   strUseTerms.LoadString( IDS_LICENSE_BACK_TO_USE_TERMS );
-   CString strCancelSetup;
-   strCancelSetup.LoadString( IDS_LICENSE_CANCEL_SETUP );
-   TASKDIALOG_BUTTON buttons[] = {
-      { BTN_BACK_TO_USE_TERMS, strUseTerms, },
-      { BTN_CANCEL_SETUP, strCancelSetup, },
-   };
-
-   dlg.SetButtons( buttons, 2 );
-   dlg.SetWindowTitle( IDS_LICENSE_TITLE );
-   dlg.SetContentText( IDS_LICENSE_DECLINE_TEXT );
-   dlg.SetMainIcon( TD_INFORMATION_ICON );
-
-   int nButton;
-   if ( FAILED( dlg.DoModal( ::GetActiveWindow(), &nButton ) ) || nButton != BTN_BACK_TO_USE_TERMS )
-   {
-      EndDialog( IDCLOSE );
-      return FALSE;
-   }
 
    return TRUE;
 }
