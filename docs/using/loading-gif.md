@@ -11,6 +11,14 @@ However, for large applications, this isn't possible. For these apps, Squirrel w
 PM> Squirrel --releasify MyApp.1.0.0.nupkg -g .\loading.gif
 ~~~ 
 
+You can also specify the amount of time that the installer should run before the gif should show up, using the "gt" or "gifTime" option.
+
+~~~powershell
+PM> Squirrel --releasify MyApp.1.0.0.nupkg -g .\loading.gif -gt 1000
+~~~ 
+
+The above example will set the loading gif to appear after 1000ms, or 1 second. The default time period is 4000ms.
+
 ## See Also
 * [Squirrel Command Line](squirrel-command-line.md) - command line options for `Squirrel --releasify`
 

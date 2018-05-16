@@ -99,6 +99,7 @@ namespace Squirrel.Update
                 bool shouldWait = false;
                 bool noMsi = (Environment.OSVersion.Platform != PlatformID.Win32NT);        // NB: WiX doesn't work under Mono / Wine
                 bool noDelta = false;
+                long gifTime = 4000;
 
                 opts = new OptionSet() {
                     "Usage: Squirrel.exe command [OPTS]",
@@ -134,6 +135,7 @@ namespace Squirrel.Update
                     { "no-delta", "Don't generate delta packages to save time", v => noDelta = true},
                     { "framework-version=", "Set the required .NET framework version, e.g. net461", v => frameworkVersion = v },
                     { "licenseDir=", "Path to the license-language.rtf files to use", v => licenseDir = v},
+                    { "gt=|gifTime=", "Set the amount of milliseconds before the loading gif should show", v => long.TryParse( v, out gifTime )}
                 };
 
                 opts.Parse(args);
@@ -152,7 +154,7 @@ namespace Squirrel.Update
                 case UpdateAction.Install:
                     var progressSource = new ProgressSource();
                     if (!silentInstall) { 
-                        AnimatedGifWindow.ShowWindow(TimeSpan.FromSeconds(4), animatedGifWindowToken.Token, progressSource);
+                        AnimatedGifWindow.ShowWindow(TimeSpan.FromMilliseconds(gifTime), animatedGifWindowToken.Token, progressSource);
                     }
 
                     Install(silentInstall, progressSource, Path.GetFullPath(target)).Wait();
