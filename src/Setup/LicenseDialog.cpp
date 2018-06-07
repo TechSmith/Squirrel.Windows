@@ -170,10 +170,10 @@ BOOL LicenseDialog::PrintRTF( HWND hwnd, HDC hdc )
    fr.rcPage.bottom = MulDiv( cyPhys, TWIPS_PER_INCH, dpiY );
 
    // Set the rendering rectangle to the printable area of the page.
-   fr.rc.left = MulDiv( cxPhysOffset, TWIPS_PER_INCH, dpiX );
-   fr.rc.right = fr.rc.left + MulDiv( cxPhys, TWIPS_PER_INCH, dpiX ) - 2 * fr.rc.left;
-   fr.rc.top = MulDiv( cyPhysOffset, TWIPS_PER_INCH, dpiY );
-   fr.rc.bottom = fr.rc.top + MulDiv( cyPhys, 1440, dpiY ) - 2 * fr.rc.top;
+   fr.rc.left = cxPhysOffset;// MulDiv( cxPhysOffset, TWIPS_PER_INCH, dpiX );
+   fr.rc.right = cxPhys - cxPhysOffset;// fr.rc.left + MulDiv( cxPhys, TWIPS_PER_INCH, dpiX ) - 2 * fr.rc.left;
+   fr.rc.top = cyPhysOffset;// MulDiv( cyPhysOffset, TWIPS_PER_INCH, dpiY );
+   fr.rc.bottom = cyPhys - cyPhysOffset;// fr.rc.top + MulDiv( cyPhys, 1440, dpiY ) - 2 * fr.rc.top;
 
    SendMessage( hwnd, EM_SETSEL, 0, (LPARAM)-1 );          // Select the entire contents.
    SendMessage( hwnd, EM_EXGETSEL, 0, (LPARAM)&fr.chrg );  // Get the selection into a CHARRANGE.
