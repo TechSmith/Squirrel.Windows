@@ -281,7 +281,12 @@ gotADir:
 		dwExitCode = (DWORD)-1;
 	}
 
-	if (dwExitCode != 0) {
+   if ( dwExitCode == -2 ) {
+      CString strError;
+      strError.LoadString( IDS_INCOMPATIBLE_OS_ERROR );
+      DisplayErrorMessage( strError, logFile );
+   }
+	else if (dwExitCode != 0) {
       CString strError;
       strError.LoadString( IDS_UPDATERUNNER_ERROR );
 		DisplayErrorMessage( strError, logFile);

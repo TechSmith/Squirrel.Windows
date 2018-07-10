@@ -14,6 +14,7 @@ using Squirrel.Json;
 using NuGet;
 using System.Text.RegularExpressions;
 using System.Windows;
+using System.ComponentModel;
 
 namespace Squirrel.Update
 {
@@ -24,6 +25,7 @@ namespace Squirrel.Update
 
     class Program : IEnableLogger 
     {
+        private static int ERROR_EXE_MACHINE_TYPE_MISMATCH = 216;
         static OptionSet opts;
 
         public static int Main(string[] args)
@@ -31,6 +33,11 @@ namespace Squirrel.Update
             var pg = new Program();
             try {
                 return pg.main(args);
+            } catch (AggregateException ex) {
+                Console.Error.WriteLine(ex);
+                return ex.InnerExceptions
+                  .OfType<Win32Exception>()
+                  .Any( i => i.NativeErrorCode == ERROR_EXE_MACHINE_TYPE_MISMATCH ) ? -2 : -1;
             } catch (Exception ex) {
                 // NB: Normally this is a terrible idea but we want to make
                 // sure Setup.exe above us gets the nonzero error code
