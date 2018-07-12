@@ -35,9 +35,8 @@ namespace Squirrel.Update
                 return pg.main(args);
             } catch (AggregateException ex) {
                 Console.Error.WriteLine(ex);
-                return ex.InnerExceptions
-                  .OfType<Win32Exception>()
-                  .Any( i => i.NativeErrorCode == ERROR_EXE_MACHINE_TYPE_MISMATCH ) ? -2 : -1;
+                var installing64bitOn32Bit = ex.InnerExceptions.OfType<Win32Exception>().Any( i => i.NativeErrorCode == ERROR_EXE_MACHINE_TYPE_MISMATCH );
+                return installing64bitOn32Bit ? -2 : -1;
             } catch (Exception ex) {
                 // NB: Normally this is a terrible idea but we want to make
                 // sure Setup.exe above us gets the nonzero error code
