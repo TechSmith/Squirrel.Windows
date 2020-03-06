@@ -69,7 +69,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 		goto out;
 	}
 
-   if ( license.ShouldShowLicense() )
+   bool acceptedEULA = (cmdLine.Find( L"--acceptEULA" ) >= 0);
+   if ( !acceptedEULA && license.ShouldShowLicense() )
    {
       if ( !license.AcceptLicense() )
       {
