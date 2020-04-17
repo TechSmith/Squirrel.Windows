@@ -13,11 +13,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
-using Mono.Options;
-using Splat;
-using Squirrel.Json;
-using NuGet;
-using System.Text.RegularExpressions;
+using System.ComponentModel;
 
 namespace Squirrel.Update
 {
