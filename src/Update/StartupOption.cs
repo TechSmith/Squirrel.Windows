@@ -12,6 +12,7 @@ namespace Squirrel.Update
         internal string target { get; private set; } = default(string);
         internal string releaseDir { get; private set; } = default(string);
         internal string packagesDir { get; private set; } = default(string);
+        internal string licenseDir { get; private set; } = default(string);
         internal string bootstrapperExe { get; private set; } = default(string);
         internal string backgroundGif { get; private set; } = default(string);
         internal string signingParameters { get; private set; } = default(string);
@@ -66,6 +67,7 @@ namespace Squirrel.Update
                 { "no-delta", "Don't generate delta packages to save time", v => noDelta = true},
                 { "framework-version=", "Set the required .NET framework version, e.g. net461", v => frameworkVersion = v },
                 { "msi-win64", "Mark the MSI as 64-bit, which is useful in Enterprise deployment scenarios", _ => packageAs64Bit = true},
+                { "licenseDir=", "Path to the license-language.rtf files to use", v => licenseDir = v},
             };
 
             opts.Parse(args);
